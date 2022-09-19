@@ -66,4 +66,4 @@ export const getResolutionByRecordNumber = async (
   return await getResolutionData(URL);
 };
 
-// getResolutionByRecordNumber(3967778).then((data) => console.log(data));
+getResolutionByRecordNumber(3967778).then((data) => console.log(data));
