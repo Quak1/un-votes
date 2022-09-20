@@ -29,13 +29,28 @@ const getResolutionData = async (URL: string) => {
     } else if (title === "Note") {
       parsedTable.note = value?.textContent;
     } else if (title === "Vote summary") {
-      parsedTable.voteSummary = value?.lastChild?.textContent;
+      parsedTable.voteSummary = parseSummary(value);
     } else if (title === "Vote") {
       parsedTable.vote = await parseVotes(value!, countryCodes);
     }
   }
 
   return parsedTable;
+};
+
+const parseSummary = (value: Element | null) => {
+  if (!value) return;
+  if (value.firstChild?.textContent?.trim() !== "Voting Summary") return;
+  const parts = value.lastChild?.textContent?.trim().split(" | ");
+  if (!parts) return;
+
+  const parsed: Record<string, number> = {};
+  for (const part of parts) {
+    const [key, value] = part.split(": ");
+    parsed[key] = +value;
+  }
+
+  return parsed;
 };
 
 interface CountryVote {
@@ -87,8 +102,6 @@ interface APICountry {
 }
 
 const fetchCodeFromAPI = async (countryName: string) => {
-  console.log("No Code:", countryName);
-
   const parenthesisIndex = countryName.indexOf(" (");
   if (parenthesisIndex !== -1)
     countryName = countryName.slice(0, parenthesisIndex);
