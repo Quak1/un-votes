@@ -22,11 +22,12 @@ export const getCountryCodes = async (URL = defaultURL) => {
     trim: true,
   });
 
-  const countryCodes = parsedData.reduce(
-    (countries: Record<string, string>, country: ParsedCountry) =>
-      Object.assign(countries, {
-        [country.Country]: country["Numeric code"].padStart(3, "0"),
-      }),
+  const countryCodes: Record<string, string> = parsedData.reduce(
+    (countries: Record<string, string>, country: ParsedCountry) => {
+      const name = country.Country.toUpperCase();
+      const code = country["Numeric code"].padStart(3, "0");
+      return Object.assign(countries, { [name]: code });
+    },
     {}
   );
 
@@ -34,19 +35,11 @@ export const getCountryCodes = async (URL = defaultURL) => {
 };
 
 export const generateCountriesJSON = async (URL = defaultURL) => {
-  const countryCodes = await getCountryCodes(URL)
-    .then((data) => JSON.stringify(data))
-    .then((data) => {
-      fs.writeFileSync("./lib/countries.json", data);
-    })
-    .then(() => console.log("JSON data is saved"));
+  const countryCodes = await getCountryCodes(URL);
   const data = JSON.stringify(countryCodes);
-  fs.writeFile("./lib/countries.json", data, (err) => {
-    if (err) {
-      throw err;
-    }
-    console.log("JSON data is saved.");
-  });
+  fs.writeFileSync("./lib/countryCodes.json", data);
+  console.log("JSON data is saved.");
 };
 
-// generateCountriesJSON(defaultURL);
+// generateCountriesJSON();
+// getCountryCodes();
