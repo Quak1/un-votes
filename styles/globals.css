@@ -24,3 +24,20 @@ a {
     background: black;
   }
 }
+
+/* TODO move css to better place */
+.marks .sphere {
+  fill: silver
+}
+.marks .borders {
+  fill: none;
+  stroke: #d9dfe0;
+}
+.marks .graticules {
+  fill: none;
+  stroke: #ececec;
+}
+circle {
+  fill: #137B80;
+  opacity: 0.3;
+}
