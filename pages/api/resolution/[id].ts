@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import connectDB from "../../../utils/db";
 import Resolution from "../../../models/resolution";
-import { getResolutionByRecordNumber } from "../../../lib/resolutionVotes";
+import { getResolutionByRecordNumber } from "../../../utils/resolutionVotes";
 
 export default async function handler(
   req: NextApiRequest,
