@@ -1,4 +1,5 @@
 import { JSDOM } from "jsdom";
+import { getCountryNumericCodeByName } from "./countryCodes";
 import countryCodes from "./countryCodes.json" assert { type: "json" };
 
 const getResolutionData = async (URL: string) => {
@@ -30,6 +31,7 @@ const getResolutionData = async (URL: string) => {
     } else if (title === "Vote summary") {
       parsedTable.voteSummary = parseSummary(value);
     } else if (title === "Vote") {
+      const countryCodes = await getCountryNumericCodeByName();
       parsedTable.vote = await parseVotes(value!, countryCodes);
     }
   }
@@ -60,7 +62,7 @@ interface CountryVote {
 
 const parseVotes = async (
   value: Element,
-  countryCodes: Record<string, string>
+  countryCodes: Map<string, string>
 ) => {
   const countryRows = value.innerHTML.trim().split("<br>");
 
@@ -79,7 +81,7 @@ const parseVotes = async (
       vote = country[0];
     }
 
-    let code = countryCodes[countryName];
+    let code = countryCodes.get(countryName);
     if (!code) ({ countryName, code } = await fetchCodeFromAPI(countryName));
 
     votes[code] = {
@@ -109,7 +111,7 @@ const fetchCodeFromAPI = async (countryName: string) => {
   const URL = `https://restcountries.com/v3.1/name/${countryName}?fullText=true&fields=name,ccn3`;
   const res = await fetch(URL);
   const data = (await res.json()) as APICountry[];
-  if (!Array.isArray(data)) throw new Error("missing country");
+  if (!Array.isArray(data)) throw new Error("missing country: " + countryName);
 
   return {
     countryName: data[0].name.common.toUpperCase(),

@@ -21,6 +21,7 @@ const getCountryCodes = async (URL = defaultURL) => {
     cast: (value, context) => {
       console.log(context.column);
       if (context.column === "Numeric code") return value.padStart(3, "0");
+      else if (context.column === "Country") return value.toUpperCase();
       return value;
     },
   });
