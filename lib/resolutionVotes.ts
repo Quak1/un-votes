@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
-import fetch from "node-fetch";
-import fs from "fs";
+// import fetch from "node-fetch";
+// import fs from "fs";
 import countryCodes from "./countryCodes.json" assert { type: "json" };
 
 const getResolutionData = async (URL: string) => {
@@ -126,8 +126,8 @@ export const getResolutionByRecordNumber = async (
   return await getResolutionData(URL);
 };
 
-const RESOLUTION_NUMBER = 3967778;
-getResolutionByRecordNumber(RESOLUTION_NUMBER).then((data) => {
-  fs.writeFileSync(`./lib/votes.json`, JSON.stringify(data));
-  console.log(`Resolution ${RESOLUTION_NUMBER} saved in votes.json`);
-});
+// const RESOLUTION_NUMBER = 3967778;
+// getResolutionByRecordNumber(RESOLUTION_NUMBER).then((data) => {
+//   fs.writeFileSync(`./lib/votes.json`, JSON.stringify(data));
+//   console.log(`Resolution ${RESOLUTION_NUMBER} saved in votes.json`);
+// });
