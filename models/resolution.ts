@@ -1,11 +1,31 @@
 import { Schema, model, models } from "mongoose";
 
-const ResolutionDocument = new Schema({
-  link: { type: String, required: true },
+// Basic Record
+const basicRecordSchema = new Schema({
+  title: { type: String, required: true },
+  recordId: { type: String, required: true },
+  type: {
+    type: String,
+    required: true,
+    enum: ["Other"],
+  },
+});
+export const BasicRecord =
+  models.Record || model("BasicRecord", basicRecordSchema);
+
+export interface BasicRecord {
+  type: "Other";
+  title: string;
+  recordId: string;
+}
+
+// Vote Record
+const resolutionFieldSchema = new Schema({
   text: { type: String, required: true },
+  link: { type: String },
 });
 
-const VoteSummary = new Schema({
+const voteFieldSchema = new Schema({
   Yes: { type: Number, required: true },
   No: { type: Number, required: true },
   Abstentions: { type: Number, required: true },
@@ -13,17 +33,38 @@ const VoteSummary = new Schema({
   "Total voting membership": { type: Number, required: true },
 });
 
-const resolutionSchema = new Schema({
-  recordId: { type: String, required: true, unique: true },
-  link: { type: String, required: true },
-  title: { type: String, required: true },
-  resolution: { type: ResolutionDocument },
-  note: { type: String },
-  voteSummary: { type: VoteSummary },
-  voteDate: { type: Date },
-  vote: { type: Map, of: String },
-});
+export const VoteRecord =
+  models.VoteRecord ||
+  BasicRecord.discriminator(
+    "VoteRecord",
+    new Schema({
+      type: {
+        type: String,
+        required: true,
+        enum: ["Security Council", "General Assembly"],
+      },
+      note: { type: String, required: true },
+      voteDate: { type: Date, required: true },
+      resolution: { type: resolutionFieldSchema, required: true },
+      summary: { type: voteFieldSchema },
+      vote: { type: Map, of: String },
+    })
+  );
 
-const Resolution = models.Resolution || model("Resolution", resolutionSchema);
-
-export default Resolution;
+export interface VoteRecord extends Omit<BasicRecord, "type"> {
+  type: "Security Council" | "General Assembly";
+  note: string;
+  voteDate: Date;
+  resolution: {
+    text: string;
+    link?: string;
+  };
+  summary?: {
+    Yes: number;
+    No: number;
+    Abstentions: number;
+    "Non-Voting": number;
+    "Total voting membership": number;
+  };
+  vote?: Record<string, string>;
+}
