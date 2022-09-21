@@ -1,6 +1,4 @@
-import fetch from "node-fetch";
 import { parse } from "csv-parse/sync";
-import fs from "fs";
 
 interface ParsedCountry {
   Country: string;
@@ -14,32 +12,28 @@ interface ParsedCountry {
 const defaultURL =
   "https://gist.githubusercontent.com/tadast/8827699/raw/countries_codes_and_coordinates.csv";
 
-export const getCountryCodes = async (URL = defaultURL) => {
+const getCountryCodes = async (URL = defaultURL) => {
   const res = await fetch(URL);
   const data = await res.text();
   const parsedData = parse(data, {
     columns: true,
     trim: true,
-  });
-
-  const countryCodes: Record<string, string> = parsedData.reduce(
-    (countries: Record<string, string>, country: ParsedCountry) => {
-      const name = country.Country.toUpperCase();
-      const code = country["Numeric code"].padStart(3, "0");
-      return Object.assign(countries, { [name]: code });
+    cast: (value, context) => {
+      console.log(context.column);
+      if (context.column === "Numeric code") return value.padStart(3, "0");
+      return value;
     },
-    {}
+  });
+  return parsedData;
+};
+
+export const getCountryNumericCodeByName = async () => {
+  const codes = await getCountryCodes();
+  const numericCodesByName = new Map();
+
+  codes.forEach((country: ParsedCountry) =>
+    numericCodesByName.set(country["Country"], country["Numeric code"])
   );
 
-  return countryCodes;
+  return numericCodesByName;
 };
-
-export const generateCountriesJSON = async (URL = defaultURL) => {
-  const countryCodes = await getCountryCodes(URL);
-  const data = JSON.stringify(countryCodes);
-  fs.writeFileSync("./lib/countryCodes.json", data);
-  console.log("JSON data is saved.");
-};
-
-// generateCountriesJSON();
-// getCountryCodes();
