@@ -2,15 +2,27 @@ import { Schema, model, models } from "mongoose";
 import { VotingOptions } from "../types";
 
 // Basic Record
-const recordsSchema = new Schema({
-  title: { type: String, required: true },
-  recordId: { type: String, required: true },
-  type: {
-    type: String,
-    required: true,
-    enum: ["Other"],
+const recordsSchema = new Schema(
+  {
+    title: { type: String, required: true },
+    recordId: { type: String, required: true },
+    type: {
+      type: String,
+      required: true,
+      enum: ["Other"],
+    },
   },
-});
+  {
+    toJSON: {
+      versionKey: false,
+      transform: (doc, ret, options) => {
+        delete ret._id;
+        delete ret.__t;
+        return ret;
+      },
+    },
+  }
+);
 export const Records = models.Records || model("Records", recordsSchema);
 
 export interface IRecords {
@@ -20,18 +32,24 @@ export interface IRecords {
 }
 
 // Vote Record
-const resolutionFieldSchema = new Schema({
-  text: { type: String, required: true },
-  link: { type: String },
-});
+const resolutionFieldSchema = new Schema(
+  {
+    text: { type: String, required: true },
+    link: { type: String },
+  },
+  { _id: false }
+);
 
-const voteFieldSchema = new Schema({
-  Yes: { type: Number, required: true },
-  No: { type: Number, required: true },
-  Abstentions: { type: Number, required: true },
-  "Non-Voting": { type: Number, required: true },
-  "Total voting membership": { type: Number, required: true },
-});
+const voteFieldSchema = new Schema(
+  {
+    Yes: { type: Number, required: true },
+    No: { type: Number, required: true },
+    Abstentions: { type: Number, required: true },
+    "Non-Voting": { type: Number, required: true },
+    "Total voting membership": { type: Number, required: true },
+  },
+  { _id: false }
+);
 
 export const VoteRecord =
   models.VoteRecord ||

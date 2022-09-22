@@ -4,7 +4,7 @@ import { getRecordData } from "./resolutionVotes";
 
 export const loadRecordByRecordId = async (id: string) => {
   await connectDB();
-  const record = await Records.findOne({ recordId: id }).lean();
+  const record = await Records.findOne({ recordId: id });
   if (record) {
     console.log("Found in DB");
     return record;
@@ -15,13 +15,13 @@ export const loadRecordByRecordId = async (id: string) => {
   if (!recordData.voteDate) {
     recordData.type = "Other";
     // TODO maybe change how records are fetched
-    newRecord = (await Records.create(recordData)).lean();
+    newRecord = await Records.create(recordData);
   } else if (!recordData.note) {
     recordData.type = "Security Council";
-    newRecord = (await VoteRecord.create(recordData)).lean();
+    newRecord = await VoteRecord.create(recordData);
   } else {
     recordData.type = "General Assembly";
-    newRecord = (await VoteRecord.create(recordData)).lean();
+    newRecord = await VoteRecord.create(recordData);
   }
 
   return newRecord;
