@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import { VotingOptions } from "../types";
 
 // Basic Record
 const recordsSchema = new Schema({
@@ -65,5 +66,5 @@ export interface IVoteRecord extends Omit<IRecords, "type"> {
     "Non-Voting": number;
     "Total voting membership": number;
   };
-  vote?: Record<string, string>;
+  vote?: Record<string, VotingOptions>;
 }

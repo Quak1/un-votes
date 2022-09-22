@@ -9,6 +9,8 @@ interface ParsedCountry {
   "Longitude (average)": string;
 }
 
+// TODO change base codes source
+// at least Sudan has the wrong numeric code
 const defaultURL =
   "https://gist.githubusercontent.com/tadast/8827699/raw/countries_codes_and_coordinates.csv";
 

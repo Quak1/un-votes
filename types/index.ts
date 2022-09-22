@@ -5,9 +5,11 @@ export interface ColorScale {
   "Non-Voting": string;
 }
 
+export type VotingOptions = "Y" | "N" | "A" | "Non-Voting";
+
 interface CountryVote {
   country: string;
-  vote: "Y" | "N" | "A" | "Non-Voting";
+  vote: VotingOptions;
   code: string;
 }
 

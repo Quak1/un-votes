@@ -1,7 +1,7 @@
 import { geoNaturalEarth1, geoPath, geoGraticule } from "d3-geo";
 // Types
 import { FeatureCollection, MultiLineString } from "geojson";
-import { ColorScale, CountryVotes } from "../types/index";
+import { ColorScale, VotingOptions } from "../types/index";
 
 const path = geoPath(geoNaturalEarth1());
 const graticule = geoGraticule();
@@ -13,7 +13,7 @@ interface MapProps {
     countries: FeatureCollection;
     interiors: MultiLineString;
   };
-  countryVotes: CountryVotes;
+  countryVotes: Record<string, VotingOptions>;
   colorScale: ColorScale;
 }
 
@@ -33,7 +33,7 @@ const Map = ({
         return (
           <path
             key={feature.properties?.name}
-            fill={countryVote ? colorScale[countryVote.vote] : missingDataColor}
+            fill={countryVote ? colorScale[countryVote] : missingDataColor}
             d={path(feature) || undefined}
           />
         );
