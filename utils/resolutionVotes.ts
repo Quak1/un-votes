@@ -1,14 +1,16 @@
 import { JSDOM } from "jsdom";
 import { getCountryNumericCodeByName } from "./countryCodes";
 
-const getResolutionData = async (URL: string) => {
+export const getRecordData = async (recordNumber: string | number) => {
+  const URL = `https://digitallibrary.un.org/record/${recordNumber}?ln=en`;
   const document = (await JSDOM.fromURL(URL)).window.document;
+  // TODO verify document is not 404
   const table = Array.from(
     document.querySelectorAll("#details-collapse .metadata-row")
   );
 
   const parsedTable: Record<string, any> = {
-    link: URL,
+    recordId: recordNumber,
   };
 
   for (const row of table) {
@@ -19,10 +21,7 @@ const getResolutionData = async (URL: string) => {
       parsedTable.title = value?.textContent;
     } else if (title === "Resolution") {
       const a = value?.querySelector("a");
-      parsedTable.resolution = {
-        link: a?.href,
-        text: a?.textContent,
-      };
+      parsedTable.resolution = parseResolution(value);
     } else if (title === "Vote date") {
       parsedTable.voteDate = new Date(value?.textContent!);
     } else if (title === "Note") {
@@ -31,11 +30,21 @@ const getResolutionData = async (URL: string) => {
       parsedTable.voteSummary = parseSummary(value);
     } else if (title === "Vote") {
       const countryCodes = await getCountryNumericCodeByName();
-      parsedTable.vote = await parseVotes(value!, countryCodes);
+      parsedTable.vote = await parseVotes(value, countryCodes);
     }
   }
 
   return parsedTable;
+};
+
+const parseResolution = (value: Element | null) => {
+  if (!value) return;
+  const a = value?.querySelector("a");
+  if (!a) return { text: value.textContent };
+  return {
+    link: a?.href,
+    text: a?.textContent,
+  };
 };
 
 const parseSummary = (value: Element | null) => {
@@ -47,7 +56,8 @@ const parseSummary = (value: Element | null) => {
   const parsed: Record<string, number> = {};
   for (const part of parts) {
     const [key, value] = part.split(": ");
-    parsed[key] = +value;
+    if (!value) parsed[key.slice(0, -1)] = 0;
+    else parsed[key] = +value;
   }
 
   return parsed;
@@ -60,9 +70,10 @@ interface CountryVote {
 }
 
 const parseVotes = async (
-  value: Element,
+  value: Element | null,
   countryCodes: Map<string, string>
 ) => {
+  if (!value) return;
   const countryRows = value.innerHTML.trim().split("<br>");
 
   const votes: Record<string, string> = {};
@@ -98,10 +109,12 @@ interface APICountry {
 }
 
 const fetchCodeFromAPI = async (countryName: string) => {
+  // TODO deal with special case in another way?
   const parenthesisIndex = countryName.indexOf(" (");
   if (parenthesisIndex !== -1)
     countryName = countryName.slice(0, parenthesisIndex);
   else if (countryName === "CABO VERDE") countryName = "CAPE VERDE";
+  else if (countryName === "TÜRKİYE") countryName = "TURKEY";
 
   const URL = `https://restcountries.com/v3.1/name/${countryName}?fullText=true&fields=name,ccn3`;
   const res = await fetch(URL);
@@ -112,11 +125,4 @@ const fetchCodeFromAPI = async (countryName: string) => {
     countryName: data[0].name.common.toUpperCase(),
     code: data[0].ccn3,
   };
-};
-
-export const getResolutionByRecordNumber = async (
-  recordNumber: string | number
-) => {
-  const URL = `https://digitallibrary.un.org/record/${recordNumber}`;
-  return await getResolutionData(URL);
 };

@@ -13,7 +13,7 @@ const basicRecordSchema = new Schema({
 export const BasicRecord =
   models.Record || model("BasicRecord", basicRecordSchema);
 
-export interface BasicRecord {
+export interface IBasicRecord {
   type: "Other";
   title: string;
   recordId: string;
@@ -51,7 +51,7 @@ export const VoteRecord =
     })
   );
 
-export interface VoteRecord extends Omit<BasicRecord, "type"> {
+export interface IVoteRecord extends Omit<IBasicRecord, "type"> {
   type: "Security Council" | "General Assembly";
   note: string;
   voteDate: Date;
