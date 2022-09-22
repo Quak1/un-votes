@@ -1,7 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 // Basic Record
-const basicRecordSchema = new Schema({
+const recordsSchema = new Schema({
   title: { type: String, required: true },
   recordId: { type: String, required: true },
   type: {
@@ -10,10 +10,9 @@ const basicRecordSchema = new Schema({
     enum: ["Other"],
   },
 });
-export const BasicRecord =
-  models.Record || model("BasicRecord", basicRecordSchema);
+export const Records = models.Records || model("Records", recordsSchema);
 
-export interface IBasicRecord {
+export interface IRecords {
   type: "Other";
   title: string;
   recordId: string;
@@ -35,7 +34,7 @@ const voteFieldSchema = new Schema({
 
 export const VoteRecord =
   models.VoteRecord ||
-  BasicRecord.discriminator(
+  Records.discriminator(
     "VoteRecord",
     new Schema({
       type: {
@@ -43,23 +42,23 @@ export const VoteRecord =
         required: true,
         enum: ["Security Council", "General Assembly"],
       },
-      note: { type: String, required: true },
+      note: { type: String },
       voteDate: { type: Date, required: true },
       resolution: { type: resolutionFieldSchema, required: true },
-      summary: { type: voteFieldSchema },
+      voteSummary: { type: voteFieldSchema },
       vote: { type: Map, of: String },
     })
   );
 
-export interface IVoteRecord extends Omit<IBasicRecord, "type"> {
+export interface IVoteRecord extends Omit<IRecords, "type"> {
   type: "Security Council" | "General Assembly";
-  note: string;
+  note?: string;
   voteDate: Date;
   resolution: {
     text: string;
     link?: string;
   };
-  summary?: {
+  voteSummary?: {
     Yes: number;
     No: number;
     Abstentions: number;
