@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { ResolutionVotes } from "../types";
-
-import { getResolutionByRecordNumber } from "../lib/resolutionVotes";
+import type { IRecords, IVoteRecord } from "../models/record";
 
 const useData = (resolutionNumber: string | number) => {
-  const [data, setData] = useState<ResolutionVotes>();
+  const [data, setData] = useState<IRecords | IVoteRecord>();
 
   useEffect(() => {
-    getResolutionByRecordNumber(resolutionNumber).then(setData);
+    fetch(`/api/resolution/${resolutionNumber}`)
+      .then((res) => res.json())
+      .then((record) => setData(record));
   }, [resolutionNumber]);
 
   return data;
