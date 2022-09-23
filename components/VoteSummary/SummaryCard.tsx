@@ -1,3 +1,5 @@
+import styles from "../../styles/VoteSummary.module.css";
+
 interface SummaryCardProps {
   title: string;
   value: string | number;
@@ -5,8 +7,9 @@ interface SummaryCardProps {
 
 const SummaryCard = ({ title, value }: SummaryCardProps) => {
   return (
-    <div>
-      {title} {value}
+    <div className={styles[title]}>
+      <p className={styles.title}>{title}</p>
+      <div className={styles.value}>{value}</div>
     </div>
   );
 };

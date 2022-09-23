@@ -1,16 +1,16 @@
 :root {
   --voteYes: #aaf683;
-  --voteYesDark: #89F254;
-  --voteYesDarker: #62EE1B;
+  --voteYesDark: #62EE1B;
+  --voteYesDarker: #33850A;
   --voteAbs: #ffd97d;
-  --voteAbsDark: #FFC847;
-  --voteAbsDarker: #FFB60A;
+  --voteAbsDark: #FFB60A;
+  --voteAbsDarker: #8F6400;
   --voteNo: #ff9b85;
-  --voteNoDark: #FF6947;
-  --voteNoDarker: #FF370A;
-  --voteNon: #F6F6F6;
-  --voteNonDark: #D6D6D6;
-  --voteNonDarker: #B8B8B8;
+  --voteNoDark: #FF370A;
+  --voteNoDarker: #8F1A00;
+  --voteNon: #EBEBEB;
+  --voteNonDark: #B8B8B8;
+  --voteNonDarker: #7A7A7A;
 }
 
 html,
