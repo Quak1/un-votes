@@ -7,6 +7,7 @@ import { IRecords, IVoteRecord } from "../../models/record";
 import { loadRecordByRecordId } from "../../utils/loadRecord";
 import useWorldAtlas from "../../hooks/useWorldAtlas";
 import Map from "../../components/Map";
+import MapContainer from "../../components/MapContainer";
 import { ColorScale } from "../../types";
 
 const colorScale: ColorScale = {
@@ -33,8 +34,14 @@ const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        {record.type === "Other" || !record.vote ? (
+      {/* TODO move styles */}
+      <main style={{ maxWidth: 960, margin: "0 auto" }}>
+        <MapContainer
+          record={record}
+          worldAtlas={worldAtlas}
+          colorScale={colorScale}
+        />
+        {/* {record.type === "Other" || !record.vote ? (
           <div>Record {record.recordId} has no vote</div>
         ) : (
           <svg viewBox="0 0 960 500">
@@ -44,7 +51,7 @@ const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
               colorScale={colorScale}
             />
           </svg>
-        )}
+        )} */}
       </main>
     </div>
   );
