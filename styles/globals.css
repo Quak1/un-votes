@@ -1,9 +1,25 @@
+:root {
+  --voteYes: #aaf683;
+  --voteYesDark: #89F254;
+  --voteYesDarker: #62EE1B;
+  --voteAbs: #ffd97d;
+  --voteAbsDark: #FFC847;
+  --voteAbsDarker: #FFB60A;
+  --voteNo: #ff9b85;
+  --voteNoDark: #FF6947;
+  --voteNoDarker: #FF370A;
+  --voteNon: #F6F6F6;
+  --voteNonDark: #D6D6D6;
+  --voteNonDarker: #B8B8B8;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 16px;
 }
 
 a {
@@ -15,7 +31,7 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
@@ -23,7 +39,7 @@ a {
     color: white;
     background: black;
   }
-}
+} */
 
 /* TODO move css to better place */
 .marks .sphere {
