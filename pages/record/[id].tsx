@@ -8,6 +8,7 @@ import useWorldAtlas from "../../hooks/useWorldAtlas";
 import Map from "../../components/Map";
 import MapContainer from "../../components/MapContainer";
 import { ColorScale } from "../../types";
+import NavBar from "../../components/NavBar";
 
 const colorScale: ColorScale = {
   "Non-Voting": "grey",
@@ -35,6 +36,7 @@ const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
 
       {/* TODO move styles */}
       <main style={{ maxWidth: 960, margin: "0 auto" }}>
+        <NavBar id={record.recordId} />
         <MapContainer
           record={record}
           worldAtlas={worldAtlas}
