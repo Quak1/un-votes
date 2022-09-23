@@ -9,6 +9,7 @@ import Map from "../../components/Map";
 import MapContainer from "../../components/MapContainer";
 import { ColorScale } from "../../types";
 import NavBar from "../../components/NavBar";
+import RecordInfo from "../../components/RecordInfo";
 
 const colorScale: ColorScale = {
   "Non-Voting": "grey",
@@ -37,6 +38,11 @@ const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
       {/* TODO move styles */}
       <main style={{ maxWidth: 960, margin: "0 auto" }}>
         <NavBar id={record.recordId} />
+        <RecordInfo
+          title={record.title}
+          recordId={record.recordId}
+          voteDate={record?.voteDate}
+        />
         <MapContainer
           record={record}
           worldAtlas={worldAtlas}
