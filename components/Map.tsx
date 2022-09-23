@@ -3,7 +3,8 @@ import { geoNaturalEarth1, geoPath, geoGraticule } from "d3-geo";
 import { FeatureCollection, MultiLineString } from "geojson";
 import { ColorScale, VotingOptions } from "../types/index";
 
-const path = geoPath(geoNaturalEarth1());
+const projection = geoNaturalEarth1();
+const path = geoPath(projection);
 const graticule = geoGraticule();
 
 const missingDataColor = "black";
@@ -29,7 +30,7 @@ const Map = ({
 
       {countries.features.map((feature) => {
         const countryVote = countryVotes[feature.id!];
-        if (!countryVote) console.log("no vote", feature?.properties?.name);
+        // if (!countryVote) console.log("no vote", feature?.properties?.name);
         return (
           <path
             key={feature.properties?.name}

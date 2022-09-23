@@ -2,24 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
-import useWorldAtlas from "../hooks/useWorldAtlas";
-import Map from "../components/Map";
-import { ColorScale } from "../types";
-import useFile from "../hooks/useFile";
-
-const colorScale: ColorScale = {
-  "Non-Voting": "grey",
-  A: "yellow",
-  N: "red",
-  Y: "green",
-};
-
 const Home: NextPage = () => {
-  const worldAtlas = useWorldAtlas();
-  const data = useFile();
-
-  if (!worldAtlas || !data) return <div>Loading...</div>;
-
   return (
     <div className={styles.container}>
       <Head>
@@ -28,20 +11,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <div>Hello, World!</div>
-        {data.vote ? (
-          <svg width={1200} height={600}>
-            <Map
-              worldAtlas={worldAtlas}
-              countryVotes={data.vote}
-              colorScale={colorScale}
-            />
-          </svg>
-        ) : (
-          <div>no votes</div>
-        )}
-      </main>
+      <main className={styles.main}>hello, world!</main>
     </div>
   );
 };

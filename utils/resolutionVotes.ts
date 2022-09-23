@@ -110,6 +110,8 @@ interface APICountry {
 
 const fetchCodeFromAPI = async (countryName: string) => {
   // TODO deal with special case in another way?
+  // TODO make a rename function for countries not found, around line 95
+  // similar to https://observablehq.com/@d3/world-choropleth
   const parenthesisIndex = countryName.indexOf(" (");
   if (parenthesisIndex !== -1)
     countryName = countryName.slice(0, parenthesisIndex);

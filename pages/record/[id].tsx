@@ -37,7 +37,7 @@ const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
         {record.type === "Other" || !record.vote ? (
           <div>Record {record.recordId} has no vote</div>
         ) : (
-          <svg width={1200} height={600}>
+          <svg viewBox="0 0 960 500">
             <Map
               worldAtlas={worldAtlas}
               countryVotes={record.vote}
