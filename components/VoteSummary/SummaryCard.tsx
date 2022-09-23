@@ -7,7 +7,7 @@ interface SummaryCardProps {
 
 const SummaryCard = ({ title, value }: SummaryCardProps) => {
   return (
-    <div className={styles[title]}>
+    <div className={`${styles[title]} ${styles.card}`}>
       <p className={styles.title}>{title}</p>
       <div className={styles.value}>{value}</div>
     </div>

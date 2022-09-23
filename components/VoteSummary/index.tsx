@@ -12,8 +12,8 @@ const VoteSummary = ({ voteSummary }: VoteSummaryProps) => {
     <div className={styles.container}>
       <SummaryCard title="Yes" value={voteSummary.Yes} />
       <SummaryCard title="No" value={voteSummary.No} />
-      <SummaryCard title="Non-voting" value={voteSummary["Non-Voting"]} />
-      <SummaryCard title="Abstention" value={voteSummary.Abstentions} />
+      <SummaryCard title="Abstentions" value={voteSummary.Abstentions} />
+      <SummaryCard title="Non-Voting" value={voteSummary["Non-Voting"]} />
     </div>
   );
 };

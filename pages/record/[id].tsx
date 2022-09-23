@@ -5,7 +5,6 @@ import Head from "next/head";
 import { IRecords, IVoteRecord } from "../../models/record";
 import { loadRecordByRecordId } from "../../utils/loadRecord";
 import useWorldAtlas from "../../hooks/useWorldAtlas";
-import Map from "../../components/Map";
 import MapContainer from "../../components/MapContainer";
 import { ColorScale } from "../../types";
 import NavBar from "../../components/NavBar";
@@ -41,24 +40,13 @@ const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
         <RecordInfo
           title={record.title}
           recordId={record.recordId}
-          voteDate={record?.voteDate}
+          voteDate={"voteDate" in record ? record.voteDate : undefined}
         />
         <MapContainer
           record={record}
           worldAtlas={worldAtlas}
           colorScale={colorScale}
         />
-        {/* {record.type === "Other" || !record.vote ? (
-          <div>Record {record.recordId} has no vote</div>
-        ) : (
-          <svg viewBox="0 0 960 500">
-            <Map
-              worldAtlas={worldAtlas}
-              countryVotes={record.vote}
-              colorScale={colorScale}
-            />
-          </svg>
-        )} */}
       </main>
     </div>
   );

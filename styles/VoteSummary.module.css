@@ -9,7 +9,7 @@
     font-weight: bold;
 }
 
-.Yes, .No, .Abstention, .Non-voting {
+.card {
     padding: 30px 0;
     display: flex;
     flex-direction: column;
@@ -30,12 +30,12 @@
     color: var(--voteNoDarker)
 }
 
-.Abstention {
+.Abstentions {
     background-color: var(--voteAbs);
     color: var(--voteAbsDarker)
 }
 
-.Non-voting {
+.Non-Voting {
     background-color: var(--voteNon);
     color: var(--voteNonDarker)
 }

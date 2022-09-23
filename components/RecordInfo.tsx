@@ -1,6 +1,6 @@
 interface RecordInfoProps {
   title: string;
-  voteDate?: string;
+  voteDate?: Date;
   recordId: string;
 }
 
@@ -10,12 +10,12 @@ const RecordInfo = ({ title, voteDate, recordId }: RecordInfoProps) => {
       <h1>{title}</h1>
       <p>
         {voteDate
-          ? // TODO dont convert date to Date on parse
+          ? // TODO dont convert voteDate to Date on parse
             `Voted on ${new Date(voteDate)}`
           : "This record has no voting data."}
       </p>
       <p>
-        See more info on the{" "}
+        Get more information on the{" "}
         <a
           href={`https://digitallibrary.un.org/record/${recordId}`}
           target="_blank"
