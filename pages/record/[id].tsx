@@ -68,15 +68,12 @@ export const getStaticProps: GetStaticProps<RecordPageProps, Params> = async (
 ) => {
   const { id } = context.params!;
   const record = await loadRecordByRecordId(id);
-  delete record._id;
-  delete record.resolution._id;
-  delete record.voteSummary._id;
-  delete record.voteDate;
-  console.log(record);
 
   return {
     props: {
-      record,
+      // TODO alternative to hacky way?
+      // seems to strip the moongose overhead
+      record: JSON.parse(JSON.stringify(record)),
     },
   };
 };
