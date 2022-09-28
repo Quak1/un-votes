@@ -16,7 +16,6 @@ export const loadRecordByRecordId = async (id: string) => {
     return; // error getting document
   } else if (!recordData.voteDate) {
     recordData.type = "Other";
-    // TODO maybe change how records are fetched
     newRecord = await Records.create(recordData);
   } else if (!recordData.note) {
     recordData.type = "Security Council";

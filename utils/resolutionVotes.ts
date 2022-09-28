@@ -4,7 +4,6 @@ import { getCountryNumericCodeByName } from "./countryCodes";
 export const getRecordData = async (recordNumber: string | number) => {
   try {
     const URL = `https://digitallibrary.un.org/record/${recordNumber}?ln=en`;
-    // TODO verify document is not 404
     const document = (await JSDOM.fromURL(URL)).window.document;
     const table = Array.from(
       document.querySelectorAll("#details-collapse .metadata-row")
@@ -120,14 +119,7 @@ interface APICountry {
 }
 
 const fetchCodeFromAPI = async (countryName: string) => {
-  // TODO deal with special case in another way?
-  // TODO make a rename function for countries not found, around line 95
-  // similar to https://observablehq.com/@d3/world-choropleth
-  const parenthesisIndex = countryName.indexOf(" (");
-  if (parenthesisIndex !== -1)
-    countryName = countryName.slice(0, parenthesisIndex);
-  else if (countryName === "CABO VERDE") countryName = "CAPE VERDE";
-  else if (countryName === "TÜRKİYE") countryName = "TURKEY";
+  countryName = renameCountry(countryName);
 
   const URL = `https://restcountries.com/v3.1/name/${countryName}?fullText=true&fields=name,ccn3`;
   const res = await fetch(URL);
@@ -138,4 +130,17 @@ const fetchCodeFromAPI = async (countryName: string) => {
     countryName: data[0].name.common.toUpperCase(),
     code: data[0].ccn3,
   };
+};
+
+// Special cases
+const renamedCountries = new Map([
+  ["CABO VERDE", "CAPE VERDE"],
+  ["TÜRKİYE", "TURKEY"],
+]);
+
+const renameCountry = (name: string): string => {
+  const parenthesisIndex = name.indexOf(" (");
+  if (parenthesisIndex !== -1) return name.slice(0, parenthesisIndex);
+
+  return renamedCountries.get(name) || name;
 };
