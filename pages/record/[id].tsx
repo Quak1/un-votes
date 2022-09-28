@@ -61,6 +61,12 @@ export const getStaticProps: GetStaticProps<RecordPageProps, Params> = async (
   const { id } = context.params!;
   const record = await loadRecordByRecordId(id);
 
+  if (!record) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       // strips the moongose overhead?

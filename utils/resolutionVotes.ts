@@ -2,39 +2,50 @@ import { JSDOM } from "jsdom";
 import { getCountryNumericCodeByName } from "./countryCodes";
 
 export const getRecordData = async (recordNumber: string | number) => {
-  const URL = `https://digitallibrary.un.org/record/${recordNumber}?ln=en`;
-  const document = (await JSDOM.fromURL(URL)).window.document;
-  // TODO verify document is not 404
-  const table = Array.from(
-    document.querySelectorAll("#details-collapse .metadata-row")
-  );
+  try {
+    const URL = `https://digitallibrary.un.org/record/${recordNumber}?ln=en`;
+    // TODO verify document is not 404
+    const document = (await JSDOM.fromURL(URL)).window.document;
+    const table = Array.from(
+      document.querySelectorAll("#details-collapse .metadata-row")
+    );
 
-  const parsedTable: Record<string, any> = {
-    recordId: recordNumber,
-  };
+    const parsedTable: Record<string, any> = {
+      recordId: recordNumber,
+    };
 
-  for (const row of table) {
-    const title = row.querySelector(".title")?.textContent?.trim();
-    const value = row.querySelector(".value");
+    for (const row of table) {
+      const title = row.querySelector(".title")?.textContent?.trim();
+      const value = row.querySelector(".value");
 
-    if (title === "Title") {
-      parsedTable.title = value?.textContent;
-    } else if (title === "Resolution") {
-      const a = value?.querySelector("a");
-      parsedTable.resolution = parseResolution(value);
-    } else if (title === "Vote date") {
-      parsedTable.voteDate = value?.textContent;
-    } else if (title === "Note") {
-      parsedTable.note = value?.textContent;
-    } else if (title === "Vote summary") {
-      parsedTable.voteSummary = parseSummary(value);
-    } else if (title === "Vote") {
-      const countryCodes = await getCountryNumericCodeByName();
-      parsedTable.vote = await parseVotes(value, countryCodes);
+      if (title === "Title") {
+        parsedTable.title = value?.textContent;
+      } else if (title === "Resolution") {
+        const a = value?.querySelector("a");
+        parsedTable.resolution = parseResolution(value);
+      } else if (title === "Vote date") {
+        parsedTable.voteDate = value?.textContent;
+      } else if (title === "Note") {
+        parsedTable.note = value?.textContent;
+      } else if (title === "Vote summary") {
+        parsedTable.voteSummary = parseSummary(value);
+      } else if (title === "Vote") {
+        const countryCodes = await getCountryNumericCodeByName();
+        parsedTable.vote = await parseVotes(value, countryCodes);
+      }
+    }
+
+    if (!parsedTable.title) {
+      parsedTable.title = "This Record Doesn't Have A Title";
+    }
+
+    return parsedTable;
+  } catch (e) {
+    console.log("failed getting record", recordNumber);
+    if (e instanceof Error) {
+      console.log("failed getting record", recordNumber);
     }
   }
-
-  return parsedTable;
 };
 
 const parseResolution = (value: Element | null) => {
