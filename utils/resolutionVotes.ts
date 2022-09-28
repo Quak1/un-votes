@@ -23,7 +23,7 @@ export const getRecordData = async (recordNumber: string | number) => {
       const a = value?.querySelector("a");
       parsedTable.resolution = parseResolution(value);
     } else if (title === "Vote date") {
-      parsedTable.voteDate = new Date(value?.textContent!);
+      parsedTable.voteDate = value?.textContent;
     } else if (title === "Note") {
       parsedTable.note = value?.textContent;
     } else if (title === "Vote summary") {

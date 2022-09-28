@@ -62,7 +62,7 @@ export const VoteRecord =
         enum: ["Security Council", "General Assembly"],
       },
       note: { type: String },
-      voteDate: { type: Date, required: true },
+      voteDate: { type: String, required: true },
       resolution: { type: resolutionFieldSchema, required: true },
       voteSummary: { type: voteFieldSchema },
       vote: { type: Map, of: String },

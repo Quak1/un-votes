@@ -8,9 +8,7 @@ interface MapContainerProps {
 }
 
 const MapContainer = ({ record, worldAtlas }: MapContainerProps) => {
-  return record.type === "Other" || !record.vote ? (
-    <div>Record {record.recordId} has no vote</div>
-  ) : (
+  return record.type === "Other" || !record.vote ? null : (
     <div>
       <VoteSummary voteSummary={record.voteSummary} />
       <div>

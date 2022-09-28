@@ -9,10 +9,7 @@ const RecordInfo = ({ title, voteDate, recordId }: RecordInfoProps) => {
     <div>
       <h1>{title}</h1>
       <p>
-        {voteDate
-          ? // TODO dont convert voteDate to Date on parse
-            `Voted on ${new Date(voteDate)}`
-          : "This record has no voting data."}
+        {voteDate ? `Voted on ${voteDate}` : "This record has no voting data."}
       </p>
       <p>
         Get more information on the{" "}
