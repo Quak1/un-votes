@@ -1,10 +1,14 @@
+.sphere,
+.graticules {
+  stroke: #d1d1d1;
+}
+
 .sphere {
-  fill: white
+  fill: white;
 }
 
 .graticules {
   fill: none;
-  stroke: #D1D1D1;
 }
 
 /* TODO choose other color for borders */
@@ -15,21 +19,21 @@
 }
 
 .Y {
-    fill: var(--voteYes)
+  fill: var(--voteYes);
 }
-
 .N {
-    fill: var(--voteNo)
+  fill: var(--voteNo);
 }
-
 .A {
-    fill: var(--voteAbs)
+  fill: var(--voteAbs);
 }
-
 .Non-Voting {
-    fill: var(--voteNon)
+  fill: var(--voteNon);
+}
+.noData {
+  fill: var(--noData);
 }
 
-.noData {
-    fill: var(--noData)
+.map {
+  margin-top: 20px;
 }
