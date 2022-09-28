@@ -16,8 +16,7 @@ interface RecordPageProps {
 }
 
 const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
-  const worldAtlas = useWorldAtlas();
-  if (!worldAtlas) return <div>Loading...</div>;
+  const worldAtlas = useWorldAtlas(record);
 
   return (
     <div>
@@ -36,7 +35,11 @@ const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
           />
         </div>
 
-        <MapContainer record={record} worldAtlas={worldAtlas} />
+        {!worldAtlas ? (
+          <div>Loading map...</div>
+        ) : (
+          <MapContainer record={record} worldAtlas={worldAtlas} />
+        )}
       </main>
     </div>
   );

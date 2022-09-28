@@ -4,6 +4,7 @@ import { feature, mesh } from "topojson-client";
 // Types
 import { Topology } from "topojson-specification";
 import { FeatureCollection, MultiLineString } from "geojson";
+import { IRecords, IVoteRecord } from "../models/record";
 
 const JSON_URL =
   "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
@@ -13,13 +14,17 @@ interface Data {
   interiors: MultiLineString;
 }
 
-export const useWorldAtlas = () => {
-  const [data, setData] = useState<Data>();
+export const useWorldAtlas = (record: IRecords | IVoteRecord) => {
+  const [data, setData] = useState<Data | string>();
 
   useEffect(() => {
-    fetchMapData().then((worldAtlas) => {
-      setData(worldAtlas);
-    });
+    if ("vote" in record) {
+      fetchMapData().then((worldAtlas) => {
+        setData(worldAtlas);
+      });
+    } else {
+      setData("no map needed");
+    }
   }, []);
 
   return data;
