@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import { IRecords, IVoteRecord } from "../../models/record";
 import { loadRecordByRecordId } from "../../utils/loadRecord";
-import useWorldAtlas from "../../hooks/useWorldAtlas";
+import { useWorldAtlas } from "../../hooks/useWorldAtlas";
 import MapContainer from "../../components/MapContainer";
 import NavBar from "../../components/NavBar";
 import RecordInfo from "../../components/RecordInfo";
@@ -14,7 +14,6 @@ interface RecordPageProps {
 }
 
 const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
-  // TODO get world atlas in with getStaticProps
   const worldAtlas = useWorldAtlas();
   if (!worldAtlas) return <div>Loading...</div>;
 
