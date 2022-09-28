@@ -11,10 +11,9 @@
   fill: none;
 }
 
-/* TODO choose other color for borders */
 .borders {
   fill: none;
-  stroke: black;
+  stroke: #4f4f4f;
   stroke-width: 1px;
 }
 
