@@ -1,0 +1,10 @@
+.pageContainer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.infoContainer {
+  margin: 0 auto;
+  max-width: 700px;
+}
