@@ -1,16 +1,21 @@
 :root {
-  --voteYes: #aaf683;
-  --voteYesDark: #62EE1B;
-  --voteYesDarker: #33850A;
-  --voteAbs: #ffd97d;
-  --voteAbsDark: #FFB60A;
-  --voteAbsDarker: #8F6400;
-  --voteNo: #ff9b85;
-  --voteNoDark: #FF370A;
-  --voteNoDarker: #8F1A00;
+  --voteYes: #90BE6D;
+  --voteYesDark: #577F39;
+  --voteYesDarker: #1D2A13;
+
+  --voteAbs: #F9C74F;
+  --voteAbsDark: #C58C07;
+  --voteAbsDarker: #4F3803;
+
+  --voteNo: #F25F5C;
+  --voteNoDark: #D01411;
+  --voteNoDarker: #5E0908;
+
   --voteNon: #EBEBEB;
-  --voteNonDark: #B8B8B8;
-  --voteNonDarker: #7A7A7A;
+  --voteNonDark: #A3A3A3;
+  --voteNonDarker: #5C5C5C;
+
+  --noData: black;
 }
 
 html,
@@ -40,20 +45,3 @@ a {
     background: black;
   }
 } */
-
-/* TODO move css to better place */
-.marks .sphere {
-  fill: silver
-}
-.marks .borders {
-  fill: none;
-  stroke: #d9dfe0;
-}
-.marks .graticules {
-  fill: none;
-  stroke: #ececec;
-}
-circle {
-  fill: #137B80;
-  opacity: 0.3;
-}

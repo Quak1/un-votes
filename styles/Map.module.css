@@ -1,0 +1,34 @@
+.sphere {
+  fill: white
+}
+
+.graticules {
+  fill: none;
+  stroke: #D1D1D1;
+}
+
+.borders {
+  fill: none;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+.Y {
+    fill: var(--voteYes)
+}
+
+.N {
+    fill: var(--voteNo)
+}
+
+.A {
+    fill: var(--voteAbs)
+}
+
+.Non-Voting {
+    fill: var(--voteNon)
+}
+
+.noData {
+    fill: var(--noData)
+}

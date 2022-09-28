@@ -1,13 +1,13 @@
 import { geoNaturalEarth1, geoPath, geoGraticule } from "d3-geo";
 // Types
 import { FeatureCollection, MultiLineString } from "geojson";
-import { ColorScale, VotingOptions } from "../types/index";
+import { VotingOptions } from "../types/index";
 
 const projection = geoNaturalEarth1();
 const path = geoPath(projection);
 const graticule = geoGraticule();
 
-const missingDataColor = "black";
+import styles from "../styles/Map.module.css";
 
 interface MapProps {
   worldAtlas: {
@@ -15,18 +15,19 @@ interface MapProps {
     interiors: MultiLineString;
   };
   countryVotes: Record<string, VotingOptions>;
-  colorScale: ColorScale;
 }
 
 const Map = ({
   worldAtlas: { countries, interiors },
   countryVotes,
-  colorScale,
 }: MapProps) => {
   return (
-    <g className="marks">
-      <path className="sphere" d={path({ type: "Sphere" }) || undefined} />
-      <path className="graticules" d={path(graticule()) || undefined} />
+    <g className={styles.marks}>
+      <path
+        className={styles.sphere}
+        d={path({ type: "Sphere" }) || undefined}
+      />
+      <path className={styles.graticules} d={path(graticule()) || undefined} />
 
       {countries.features.map((feature) => {
         const countryVote = countryVotes[feature.id!];
@@ -34,13 +35,14 @@ const Map = ({
         return (
           <path
             key={feature.properties?.name}
-            fill={countryVote ? colorScale[countryVote] : missingDataColor}
+            // fill={countryVote ? colorScale[countryVote] : missingDataColor}
+            className={countryVote ? styles[countryVote] : styles["noData"]}
             d={path(feature) || undefined}
           />
         );
       })}
 
-      <path className="borders" d={path(interiors) || undefined} />
+      <path className={styles.borders} d={path(interiors) || undefined} />
     </g>
   );
 };

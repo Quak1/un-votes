@@ -6,16 +6,8 @@ import { IRecords, IVoteRecord } from "../../models/record";
 import { loadRecordByRecordId } from "../../utils/loadRecord";
 import useWorldAtlas from "../../hooks/useWorldAtlas";
 import MapContainer from "../../components/MapContainer";
-import { ColorScale } from "../../types";
 import NavBar from "../../components/NavBar";
 import RecordInfo from "../../components/RecordInfo";
-
-const colorScale: ColorScale = {
-  "Non-Voting": "grey",
-  A: "yellow",
-  N: "red",
-  Y: "green",
-};
 
 interface RecordPageProps {
   record: IRecords | IVoteRecord;
@@ -42,11 +34,7 @@ const RecordPage: NextPage<RecordPageProps> = ({ record }) => {
           recordId={record.recordId}
           voteDate={"voteDate" in record ? record.voteDate : undefined}
         />
-        <MapContainer
-          record={record}
-          worldAtlas={worldAtlas}
-          colorScale={colorScale}
-        />
+        <MapContainer record={record} worldAtlas={worldAtlas} />
       </main>
     </div>
   );

@@ -5,14 +5,9 @@ import Map from "./Map";
 interface MapContainerProps {
   record: IRecords | IVoteRecord;
   worldAtlas: any;
-  colorScale: any;
 }
 
-const MapContainer = ({
-  record,
-  worldAtlas,
-  colorScale,
-}: MapContainerProps) => {
+const MapContainer = ({ record, worldAtlas }: MapContainerProps) => {
   return record.type === "Other" || !record.vote ? (
     <div>Record {record.recordId} has no vote</div>
   ) : (
@@ -20,11 +15,7 @@ const MapContainer = ({
       <VoteSummary voteSummary={record.voteSummary} />
       <div>
         <svg viewBox="0 0 960 500">
-          <Map
-            worldAtlas={worldAtlas}
-            countryVotes={record.vote}
-            colorScale={colorScale}
-          />
+          <Map worldAtlas={worldAtlas} countryVotes={record.vote} />
         </svg>
       </div>
     </div>
