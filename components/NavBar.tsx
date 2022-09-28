@@ -4,9 +4,6 @@ interface NavBarProps {
   id: string;
 }
 
-// TODO add styles
-// make text some shade of gray
-// change link appearance?
 const NavBar = ({ id }: NavBarProps) => {
   return (
     <div>

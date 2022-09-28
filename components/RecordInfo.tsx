@@ -17,6 +17,7 @@ const RecordInfo = ({ title, voteDate, recordId }: RecordInfoProps) => {
       <p>
         Get more information on the{" "}
         <a
+          className="underline"
           href={`https://digitallibrary.un.org/record/${recordId}`}
           target="_blank"
           rel="noreferrer"
