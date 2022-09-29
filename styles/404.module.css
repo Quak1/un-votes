@@ -1,0 +1,28 @@
+.container {
+  height: 70vh;
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 130px;
+  font-weight: 100;
+  margin: 0;
+}
+
+.subtitle {
+  text-align: center;
+  margin: 0;
+}
+
+.message {
+  font-size: 16px;
+  text-decoration: unset;
+}
+
+.link {
+  text-decoration: underline;
+}
