@@ -36,3 +36,16 @@
 .map {
   margin-top: 20px;
 }
+
+.marker {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  background-color: var(--noData);
+}
+
+.notice {
+  font-style: italic;
+  font-size: 0.8rem;
+  text-align: end;
+}
