@@ -1,18 +1,14 @@
 import { parse } from "csv-parse/sync";
 
 interface ParsedCountry {
-  Country: string;
-  "Alpha-2 code": string;
-  "Alpha-3 code": string;
-  "Numeric code": string;
-  "Latitude (average)": string;
-  "Longitude (average)": string;
+  name: string;
+  alpha3: string;
+  alpha2: string;
+  numeric: string;
 }
 
-// TODO change base codes source
-// at least Sudan has the wrong numeric code
 const defaultURL =
-  "https://gist.githubusercontent.com/tadast/8827699/raw/countries_codes_and_coordinates.csv";
+  "https://gist.githubusercontent.com/Quak1/462030af4a06de58181138ba48363afe/raw/country-codes-upper.csv";
 
 const getCountryCodes = async (URL = defaultURL) => {
   const res = await fetch(URL);
@@ -21,8 +17,7 @@ const getCountryCodes = async (URL = defaultURL) => {
     columns: true,
     trim: true,
     cast: (value, context) => {
-      if (context.column === "Numeric code") return value.padStart(3, "0");
-      else if (context.column === "Country") return value.toUpperCase();
+      if (context.column === "numeric") return value.padStart(3, "0");
       return value;
     },
   });
@@ -34,7 +29,7 @@ export const getCountryNumericCodeByName = async () => {
   const numericCodesByName = new Map();
 
   codes.forEach((country: ParsedCountry) =>
-    numericCodesByName.set(country["Country"], country["Numeric code"])
+    numericCodesByName.set(country["name"], country["numeric"])
   );
 
   return numericCodesByName;
