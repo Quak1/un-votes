@@ -38,7 +38,11 @@ const Map = ({
             // fill={countryVote ? colorScale[countryVote] : missingDataColor}
             className={countryVote ? styles[countryVote] : styles["noData"]}
             d={path(feature) || undefined}
-          />
+          >
+            <title>
+              {feature.properties?.name} - {countryVote}
+            </title>
+          </path>
         );
       })}
 
