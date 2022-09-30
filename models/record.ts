@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, InferSchemaType } from "mongoose";
 import { VotingOptions } from "../types";
 
 // Basic Record
@@ -51,6 +51,16 @@ const voteFieldSchema = new Schema(
   { _id: false }
 );
 
+const voteSchema = new Schema(
+  {
+    vote: { type: String, required: true, enum: ["Y", "N", "A", "Non-Voting"] },
+    countryName: { type: String, required: true },
+  },
+  { _id: false }
+);
+
+export type IVote = InferSchemaType<typeof voteSchema>;
+
 export const VoteRecord =
   models.VoteRecord ||
   Records.discriminator(
@@ -65,7 +75,7 @@ export const VoteRecord =
       voteDate: { type: String, required: true },
       resolution: { type: resolutionFieldSchema, required: true },
       voteSummary: { type: voteFieldSchema },
-      vote: { type: Map, of: String },
+      vote: { type: Map, of: voteSchema },
     })
   );
 
@@ -84,5 +94,5 @@ export interface IVoteRecord extends Omit<IRecords, "type"> {
     "Non-Voting": number;
     "Total voting membership": number;
   };
-  vote?: Record<string, VotingOptions>;
+  vote?: Record<string, { vote: VotingOptions; countryName: string }>;
 }

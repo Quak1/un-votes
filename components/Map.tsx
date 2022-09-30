@@ -1,7 +1,7 @@
 import { geoNaturalEarth1, geoPath, geoGraticule } from "d3-geo";
 // Types
 import { FeatureCollection, MultiLineString } from "geojson";
-import { VotingOptions } from "../types/index";
+import { IVote } from "../models/record";
 
 const projection = geoNaturalEarth1();
 const path = geoPath(projection);
@@ -14,7 +14,7 @@ interface MapProps {
     countries: FeatureCollection;
     interiors: MultiLineString;
   };
-  countryVotes: Record<string, VotingOptions>;
+  countryVotes: Record<string, IVote>;
 }
 
 const Map = ({
@@ -36,11 +36,14 @@ const Map = ({
           <path
             key={feature.properties?.name}
             // fill={countryVote ? colorScale[countryVote] : missingDataColor}
-            className={countryVote ? styles[countryVote] : styles["noData"]}
+            className={
+              countryVote ? styles[countryVote.vote] : styles["noData"]
+            }
             d={path(feature) || undefined}
           >
             <title>
-              {feature.properties?.name} - {countryVote}
+              {feature.properties?.name}
+              {countryVote && ` - ${countryVote.vote}`}
             </title>
           </path>
         );

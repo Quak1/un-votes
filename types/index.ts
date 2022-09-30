@@ -5,7 +5,11 @@ export interface ColorScale {
   "Non-Voting": string;
 }
 
-export type VotingOptions = "Y" | "N" | "A" | "Non-Voting";
+const VOTING_OPTIONS = ["Y", "N", "A", "Non-Voting"] as const;
+export type VotingOptions = typeof VOTING_OPTIONS[number];
+export const isVotingOption = (item: string): item is VotingOptions => {
+  return VOTING_OPTIONS.includes(item as VotingOptions);
+};
 
 interface CountryVote {
   country: string;

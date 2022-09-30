@@ -1,6 +1,9 @@
 import { JSDOM } from "jsdom";
 import { getCountryNumericCodeByName } from "./countryCodes";
 
+import { IVote } from "../models/record";
+import { isVotingOption } from "../types";
+
 export const getRecordData = async (recordNumber: string | number) => {
   try {
     const URL = `https://digitallibrary.un.org/record/${recordNumber}?ln=en`;
@@ -86,7 +89,7 @@ const parseVotes = async (
   if (!value) return;
   const countryRows = value.innerHTML.trim().split("<br>");
 
-  const votes: Record<string, string> = {};
+  const votes: Record<string, IVote> = {};
 
   for (const row of countryRows) {
     const country = row.trim();
@@ -104,7 +107,12 @@ const parseVotes = async (
     let code = countryCodes.get(countryName);
     if (!code) ({ countryName, code } = await fetchCodeFromAPI(countryName));
 
-    votes[code] = vote;
+    if (!isVotingOption(vote)) throw new Error("wrong vote format");
+
+    votes[code] = {
+      vote,
+      countryName,
+    };
   }
 
   return votes;
