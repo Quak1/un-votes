@@ -1,4 +1,5 @@
 import Modal from "./Modal";
+import styles from "../styles/VotesModal.module.css";
 
 interface ModalProps {
   title: string;
@@ -9,8 +10,8 @@ interface ModalProps {
 
 const VotesModal = ({ title, votes, open, onClose }: ModalProps) => (
   <Modal open={open} onClose={onClose}>
-    <div>
-      <h1>{title}</h1>
+    <h1>{title}</h1>
+    <div className={styles.body}>
       {votes.map((vote) => (
         <div>{vote}</div>
       ))}
