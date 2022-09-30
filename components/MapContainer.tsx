@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IRecords, IVoteRecord } from "../models/record";
+import { IRecords, IVoteRecord, IVote } from "../models/record";
 import { VotingOptions } from "../types";
 import VoteSummary from "./VoteSummary";
 import Map from "./Map";
@@ -12,8 +12,17 @@ interface MapContainerProps {
   worldAtlas: any;
 }
 
+interface ModalData {
+  title: string;
+  votes: string[];
+}
+
 const MapContainer = ({ record, worldAtlas }: MapContainerProps) => {
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalData, setModalData] = useState<ModalData>({
+    title: "",
+    votes: [],
+  });
 
   const groupedVotes: Record<VotingOptions, string[]> = {
     Y: [],
@@ -24,13 +33,31 @@ const MapContainer = ({ record, worldAtlas }: MapContainerProps) => {
 
   if ("vote" in record) {
     for (const vote in record.vote) {
-      groupedVotes[record.vote[vote]].push(vote);
+      groupedVotes[record.vote[vote].vote].push(record.vote[vote].countryName);
     }
   }
 
+  const handleClickVoteSummary = (option: VotingOptions) => {
+    const optionToTitle = {
+      Y: "Yes Votes",
+      N: "No Votes",
+      A: "Abstentions",
+      "Non-Voting": "Non-Voting",
+    };
+
+    setModalData({
+      title: optionToTitle[option],
+      votes: groupedVotes[option],
+    });
+    setOpenModal(true);
+  };
+
   return record.type === "Other" || !record.vote ? null : (
     <div>
-      <VoteSummary voteSummary={record.voteSummary} />
+      <VoteSummary
+        voteSummary={record.voteSummary}
+        onClick={handleClickVoteSummary}
+      />
       <svg className={styles.map} viewBox="0 0 960 500">
         <Map worldAtlas={worldAtlas} countryVotes={record.vote} />
       </svg>
@@ -43,8 +70,8 @@ const MapContainer = ({ record, worldAtlas }: MapContainerProps) => {
 
       {"vote" in record && (
         <VotesModal
-          title="Yes"
-          votes={groupedVotes.Y}
+          title={modalData.title}
+          votes={modalData.votes}
           open={openModal}
           onClose={() => setOpenModal(false)}
         />
