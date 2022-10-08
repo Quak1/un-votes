@@ -41,6 +41,7 @@ const Map = ({
             }
             d={path(feature) || undefined}
           >
+            {/* TODO enable/change tooltip for mobile */}
             <title>
               {feature.properties?.name}
               {countryVote && ` - ${countryVote.vote}`}

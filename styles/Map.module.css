@@ -14,7 +14,7 @@
 .borders {
   fill: none;
   stroke: #4f4f4f;
-  stroke-width: 1px;
+  stroke-width: 0.5px;
 }
 
 .Y {
